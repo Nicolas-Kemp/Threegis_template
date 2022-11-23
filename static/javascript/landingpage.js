@@ -113,29 +113,10 @@ THREE.MapControls = function ( object, domElement ) {
 
 };
 
-//THREE.MapControls.prototype = Object.create( THREE.EventDispatcher.prototype );
-//THREE.MapControls.prototype.constructor = THREE.MapControls;
-
-
-//controls = new THREE.MapControls.prototype.constructor( camera, renderer.domElement );
-////controls.target.set(dis_c_y,0,dis_c_x);
-//controls.maxPolarAngle = Math.PI/2;
-//controls.zoomSpeed = 0.4;
-//controls.position0 = 0;
-//controls.screenSpacePanning = false;
-//controls.enabled = false;
-//console.log(fishriverwalk_vertices)
-//console.log(fishriverwalk_centroid)
-
 camera.position.x = fishriverwalk_centroid[1]-0.002 //fishriverwalk_centroid[1]-0.04;
 camera.position.y = 0.008;
 camera.position.z = fishriverwalk_centroid[0]-0.01 //fishriverwalk_centroid[0]+0.01;
 camera.lookAt(fishriverwalk_centroid[1]-0.0021,0.006,fishriverwalk_centroid[0]-0.0059);
 
-//controls.target.set(fishriverwalk_centroid[1]-0.0021,0.0065,fishriverwalk_centroid[0]-0.0059);
-//controls.update();
-//controls.enabled = true;
-//
-//controls.update();
-//controls.addEventListener('change', onPositionChange);
+
 animate();
