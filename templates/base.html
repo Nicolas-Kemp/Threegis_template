@@ -1,0 +1,53 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Three GIS</title>
+    <link rel="stylesheet"  href="{%  static  'css/base.css'  type='text/css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <main class="container" id="main_container">
+        <nav>
+            <div class="logo">
+            <!--                     <img src="static/logo/gistechnic_logo.png" id="gistechnic_logo">-->
+                <h4>THREEGIS</h4>
+            </div>
+            <ul class="nav-links" id="navigation">
+                <li><a href="/">HOME</a></li>
+            </ul>
+            <div class = "boerie">
+                <div class = 'line1'></div>
+                <div class = 'line2'></div>
+                <div class = 'line3'></div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </main>
+    <script src= {% static '/javascript/base.js' %} type='text/javascript'></script>
+<script>
+    $(function(){
+
+    $('#navigation a').click(function(){
+        console.log("hello active");
+        $('#navigation .active').removeClass('active'); // remove the class from the currently selected
+        $(this).addClass('active'); // add the class to the newly clicked link
+
+    });
+
+});
+</script>
+</body>
+</html>

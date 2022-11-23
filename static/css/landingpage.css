@@ -1,0 +1,113 @@
+html,
+body
+{
+background: #000E1D;
+}
+
+.webgl{
+position: static;
+height: 10% !important;
+top: 0;
+left: 0;
+margin: 0em 0em;
+border: none !important;
+outline: none !important;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+}
+
+
+.welcome_container{
+    animation: welcome_animation 5s ease-in;
+    font-family: 'Roboto', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: white;
+    min-width: 200px;
+    max-width: 500px;
+    width: 40%;
+    background: linear-gradient(90deg, rgba(0,36,11,0.5) 0%, rgba(96, 122, 14,0.5) 50%, rgba(0,0,0,0.5) 100%);
+}
+.line {
+  display:block;
+  border-bottom:4px solid white;
+  width:0%;
+  transform: translate(0%, 0%);
+  left:0%;
+  text-align:center;
+  delay: 2s;
+  animation: line_grow 4s linear forwards;
+}
+@keyframes line_grow {
+      0% { transform: translate(0%, 0%);
+                      width:0%; }
+      40% { transform: translate(60%, 50%);
+                      width:0%; }
+      100% { transform: translate(0%, 0%);
+                        width:100%; }
+}
+
+@keyframes welcome_animation{
+  0% { opacity:0; }
+  20% { opacity:0; }
+  100% { opacity:1; }
+}
+
+.welcome-title{
+    animation: welcometitle_animation 5s ease-in;
+    text-align: center;
+    transform-original: center bottom;
+    font-size:50px;
+    color:white;
+}
+
+.welcome-text{
+    animation: welcometext_animation 4.5s ease-in;
+    font-size:20px;
+    text-align: center;
+    color:white;
+}
+.welcome-text-small{
+    display: none;
+}
+
+@media screen and (max-width:786px){
+    .welcome_container{
+        width:150px;
+        height:80px;
+    }
+    .welcome-text{
+        display: none;
+    }
+    .welcome-text-small{
+        display: block;
+        text-align: center;
+        animation: welcometext_animation 4.5s ease-in;
+    }
+   .welcome-text{
+        font-size:15px;
+    }
+    .welcome-title{
+    font-size:25px;
+    }
+}
+
+@keyframes welcometext_animation{
+  0% { opacity:0; }
+  60% { opacity:0.4; }
+  100% { opacity:1; }
+}
+
+
+
+canvas:focus {
+    border: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
