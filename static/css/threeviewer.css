@@ -1,0 +1,35 @@
+html,
+body
+{
+background: #000E1D;
+}
+
+.webgl{
+position: static;
+height: 10% !important;
+top: 0;
+left: 0;
+margin: 0em 0em;
+border: none !important;
+outline: none !important;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+}
+
+@keyframes line_grow {
+      0% { transform: translate(0%, 0%);
+                      width:0%; }
+      40% { transform: translate(60%, 50%);
+                      width:0%; }
+      100% { transform: translate(0%, 0%);
+                        width:100%; }
+}
+
+canvas:focus {
+    border: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
