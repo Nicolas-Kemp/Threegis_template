@@ -10,13 +10,13 @@ class ThreeViewer(View):
     template_name = 'threed_viewer.html'
     dict_to_return = {'key': 'value'}
 
-    tiff_fishriverwalk = r'static/dem/fishriver_hike_ex.tif'
+    tiff_fishriverwalk = r'static/dem/hermanus_v2.tif'
 
     def get(self, request):
         if request.is_ajax():
             return JsonResponse(self.dict_to_return)
 
-        dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "fishriverwalk").object_dict()
+        dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "aoi").object_dict()
 
         self.dict_to_return.update(dict_fishriverwalk)
         for keys in self.dict_to_return:
