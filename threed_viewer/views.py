@@ -10,7 +10,7 @@ class ThreeViewer(View):
     template_name = 'threed_viewer.html'
     dict_to_return = {'key': 'value'}
 
-    tiff_fishriverwalk = r'static/dem/hermanus_v2.tif'
+    tiff_fishriverwalk = r'static/dem/hermanus.tif'
 
     def get(self, request):
         if request.is_ajax():

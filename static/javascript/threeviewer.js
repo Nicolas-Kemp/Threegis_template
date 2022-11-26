@@ -118,10 +118,6 @@ renderer.setClearColor( 0xFFA03B, 0 );
 let trade_y = aoi_centroid[1];
 let trade_x = aoi_centroid[0];
 
-			const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			const cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
 
 			camera.position.x = trade_y-(aoi_vertices[0] - aoi_vertices.at(-3))/2;
 			camera.position.y = (aoi_vertices[0] - aoi_vertices.at(-3))+0.02;
@@ -138,14 +134,15 @@ geometry_aoi.computeVertexNormals();
 console.log(aoi_vertices)
 
 
-let texture = new THREE.TextureLoader().load('static/images/hermanus.png');
-//let a_texture = new THREE.TextureLoader().load('static/images/fishriver_walk_ex_alpha.jpeg');
+let texture = new THREE.TextureLoader().load('static/images/hermanus.jpg');
+let a_texture = new THREE.TextureLoader().load('static/images/hermanus_alpha.jpg');
 
 const material_aoi = new THREE.MeshStandardMaterial();
 aoi_map = new THREE.Mesh( geometry_aoi, material_aoi );
 scene.add( aoi_map );
 aoi_map.material.map = texture;
-//aoi_map.material.alphaMap = a_texture;
+aoi_map.material.alphaMap = a_texture;
+aoi_map.material.transparent=true;
 
 console.log("here");
 aoi_map.material.metalness = 0;
@@ -167,10 +164,6 @@ document.getElementById("webgl_id").appendChild(renderer.domElement);
 
 function animate() {
     requestAnimationFrame( animate );
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
     renderer.render( scene, camera );
 };
 
