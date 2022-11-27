@@ -1,6 +1,84 @@
 let aoi_map;
 const loader = new THREE.GLTFLoader();
+// THREE.js GLTF INSTANCING FUNCTIONS//
+function object_instance(loader, object_name, scale, rotation_z, locations_vertices) {
+        let model_path = '/static/gltf/' + object_name
+        let object_model;
+        let obj_group = new THREE.Group();
+        //scene.add( obj_group );
 
+        loader.load( model_path, function ( gltf ) {
+
+            object_model = gltf.scene;
+            object_model.traverse( function(child) {
+
+            if (child instanceof THREE.Mesh) {
+
+                const instanceCount = child.material.userData.instanceCount;
+                const instanceID = new THREE.InstancedBufferAttribute(
+                        new Float32Array( new Array( instanceCount ).fill( 0 ).map( ( _, index ) => index ) ),
+                        1
+                     );
+
+                geometry = new THREE.InstancedBufferGeometry().copy( child.geometry );
+                geometry.scale(scale,scale,scale);
+                geometry.rotateZ((Math.PI/180)*rotation_z);
+                geometry.setAttribute( 'instanceID', instanceID );
+                geometry.InstancedCount = instanceCount;
+                cnt_positions = geometry.attributes.position.count;
+
+                var geom_instance = new THREE.InstancedMesh(geometry, child.material, locations_vertices.length);
+                //console.log(pin_instance);
+                obj_group.add(geom_instance)
+
+
+            }
+
+            });
+
+            //scene.add( obj_group );
+            y_displacement = scale;
+
+            create_instances(obj_group, locations_vertices, y_displacement);
+
+            }, undefined, function ( error ) {
+
+                console.error( error );
+
+        });
+
+        return obj_group
+
+}
+
+
+function create_instances(instance_mesh_group, instance_array, y_displacement){
+
+    instance_mesh_group.traverse( function(child) {
+
+        if (child instanceof THREE.InstancedMesh) {
+
+
+            child.matrixAutoUpdate = true;
+            let vertice_locations = instance_array;
+            let vertice_count = vertice_locations.length;
+            let dummy_increment = 0;
+            let matrix = new THREE.Matrix4();
+            //let v_scale = new THREE.Vector3(0.2, 0.2, 0.2);
+            for(let i = 0; i < vertice_count; i += 3){
+
+                matrix.setPosition( vertice_locations[i],
+                                    vertice_locations[i+1]+(y_displacement),
+                                    vertice_locations[i+2]);
+                child.setMatrixAt(dummy_increment, matrix);
+                dummy_increment += 1;
+
+            }
+        }else{
+            console.log('not running instance - mesh is not an object')
+        }
+    });
+}
 //$('#btn_light').click(function() {
 //    console.log('hello button')
 //    if ($('#btn_light').hasClass('btn btn-info black-background white')){
@@ -119,36 +197,38 @@ let trade_y = aoi_centroid[1];
 let trade_x = aoi_centroid[0];
 
 
-			camera.position.x = trade_y-(aoi_vertices[0] - aoi_vertices.at(-3))/2;
-			camera.position.y = (aoi_vertices[0] - aoi_vertices.at(-3))+0.02;
-			camera.position.z = trade_x;
-
-let geometry_aoi = new THREE.BufferGeometry();
-geometry_aoi.setIndex(aoi_indices);
-//geometry_aoi.toNonIndexed();
-geometry_aoi.setAttribute( 'position', new THREE.BufferAttribute( aoi_vertices, 3 ) );
-geometry_aoi.setAttribute( 'uv', new THREE.BufferAttribute( aoi_uvs, 2 ) );
-//geometry_aoi.setAttribute( 'color', new THREE.BufferAttribute( aoi_colors, 3 ) );
-geometry_aoi.computeVertexNormals();
-
-console.log(aoi_vertices)
+camera.position.x = trade_y-(aoi_vertices[0] - aoi_vertices.at(-3))/2;
+camera.position.y = (aoi_vertices[0] - aoi_vertices.at(-3))+0.02;
+camera.position.z = trade_x;
 
 
-let texture = new THREE.TextureLoader().load('static/images/hermanus.jpg');
-let a_texture = new THREE.TextureLoader().load('static/images/hermanus_alpha.jpg');
+// LAYERS TO ADD TO THE SCENE //
+     // Base relief map
+    let geometry_aoi = new THREE.BufferGeometry();
+    geometry_aoi.setIndex(aoi_indices);
+    geometry_aoi.setAttribute( 'position', new THREE.BufferAttribute( aoi_vertices, 3 ) );
+    geometry_aoi.setAttribute( 'uv', new THREE.BufferAttribute( aoi_uvs, 2 ) );
+    geometry_aoi.computeVertexNormals();
 
-const material_aoi = new THREE.MeshStandardMaterial();
-aoi_map = new THREE.Mesh( geometry_aoi, material_aoi );
-scene.add( aoi_map );
-aoi_map.material.map = texture;
-aoi_map.material.alphaMap = a_texture;
-aoi_map.material.transparent=true;
+    let texture = new THREE.TextureLoader().load('static/images/hermanus.jpg');
+    let a_texture = new THREE.TextureLoader().load('static/images/hermanus_alpha.jpg');
 
-console.log("here");
-aoi_map.material.metalness = 0;
-aoi_map.material.roughness = 1;
-aoi_map.material.needsUpdate = true;
-//aoi_map.scale.y = 0.001;
+    const material_aoi = new THREE.MeshStandardMaterial();
+    aoi_map = new THREE.Mesh( geometry_aoi, material_aoi );
+    scene.add( aoi_map );
+    aoi_map.material.map = texture;
+    aoi_map.material.alphaMap = a_texture;
+    aoi_map.material.transparent=false;
+
+    aoi_map.material.metalness = 0;
+    aoi_map.material.roughness = 1;
+    aoi_map.material.needsUpdate = true;
+
+    //Pins
+    pin_plato = object_instance(loader, 'Plato.gltf', 0.00005, 0, osm_poi_vertices);
+    scene.add(pin_plato);
+    pin_poi_osm = object_instance(loader, 'Plato.gltf', 0.0002, 0, plato_vertices);
+    scene.add(pin_poi_osm);
 
 
 const light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
