@@ -225,10 +225,10 @@ camera.position.z = trade_x;
     aoi_map.material.needsUpdate = true;
 
     //Pins
-    pin_plato = object_instance(loader, 'Plato.gltf', 0.00005, 0, osm_poi_vertices);
-    scene.add(pin_plato);
-    pin_poi_osm = object_instance(loader, 'Plato.gltf', 0.0002, 0, plato_vertices);
+    pin_poi_osm = object_instance(loader, 'pin_poi.gltf', 0.00005, 0, osm_poi_vertices);
     scene.add(pin_poi_osm);
+    pin_plato = object_instance(loader, 'Plato_v2.gltf', 0.0002, 0, plato_vertices);
+    scene.add(pin_plato);
 
 
 const light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
