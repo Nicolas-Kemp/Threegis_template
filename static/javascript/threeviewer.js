@@ -1,5 +1,66 @@
 let aoi_map;
 const loader = new THREE.GLTFLoader();
+
+let check_plato = document.getElementById("cb_plato");
+// THREE. JS layers Buttons
+$('#btn_light').click(function() {
+    console.log('hello button')
+    if ($('#btn_light').hasClass('btn btn-info black-background white')){
+        $('#btn_light').removeClass('btn btn-info black-background white').addClass('btn btn-info white-background black');
+
+    }else{
+    $('#btn_light').removeClass('btn btn-info white-background black').addClass('btn btn-info black-background white');
+    }
+
+    if(aoi_map.material.transparent===true){
+        aoi_map.material.transparent=false;
+
+    }else{
+        aoi_map.material.transparent=true;
+    }
+    aoi_map.material.needsUpdate = true;
+
+  //$(this).addClass('btn btn-info').removeClass('btn-primary ');
+});
+
+function height_switch() {
+  $('.button').removeClass('btn-success').addClass('btn-primary ');
+  $(this).addClass('btn-success').removeClass('btn-primary ');
+    if(aoi_map.material.displacementScale ===0.002){
+        aoi_map.material.displacementScale = 0;
+        poi_plato.position.y = poi_plato.position.y - 0.002;
+        poi_osm_poi.position.y = poi_osm_poi.position.y - 0.002;
+        poi_osm_poi_hermanus.position.y = poi_osm_poi_hermanus.position.y - 0.002;
+    }else{
+        aoi_map.material.displacementScale = 0.002;
+        poi_plato.position.y = poi_plato.position.y + 0.002;
+        poi_osm_poi.position.y = poi_osm_poi.position.y + 0.002;
+        poi_osm_poi_hermanus.position.y = poi_osm_poi_hermanus.position.y + 0.002;
+    }
+    aoi_map.material.needsUpdate = true;
+
+}
+
+function poi_checked(cb_name, poi_name)
+{
+
+    console.log(cb_name);
+    console.log(poi_name);
+    let selectedObject = scene.getObjectByName(cb_name);
+
+    console.log(renderer.info)
+  if (typeof selectedObject !== 'undefined')
+  {
+      scene.remove( selectedObject );
+  } else {
+      scene.add( window[poi_name]);
+  }
+
+}
+
+
+
+
 // THREE.js GLTF INSTANCING FUNCTIONS//
 function object_instance(loader, object_name, scale, rotation_z, locations_vertices) {
         let model_path = '/static/gltf/' + object_name
@@ -37,7 +98,7 @@ function object_instance(loader, object_name, scale, rotation_z, locations_verti
             });
 
             //scene.add( obj_group );
-            y_displacement = scale;
+            y_displacement = scale*2;
 
             create_instances(obj_group, locations_vertices, y_displacement);
 
@@ -218,6 +279,8 @@ camera.position.z = trade_x;
     scene.add( aoi_map );
     aoi_map.material.map = texture;
     aoi_map.material.alphaMap = a_texture;
+    aoi_map.material.displacementMap = a_texture;
+    aoi_map.material.displacementScale = 0;
     aoi_map.material.transparent=false;
 
     aoi_map.material.metalness = 0;
@@ -225,10 +288,12 @@ camera.position.z = trade_x;
     aoi_map.material.needsUpdate = true;
 
     //Pins
-    pin_poi_osm = object_instance(loader, 'pin_poi.gltf', 0.00005, 0, osm_poi_vertices);
-    scene.add(pin_poi_osm);
-    pin_plato = object_instance(loader, 'Plato_v2.gltf', 0.0002, 0, plato_vertices);
-    scene.add(pin_plato);
+    poi_osm_poi = object_instance(loader, 'pin_poi.gltf', 0.005, 0, osm_poi_vertices);
+    poi_osm_poi.name = 'cb_osm_poi';
+    poi_osm_poi_hermanus = object_instance(loader, 'pin_poi.gltf', 0.00025, 0, osm_poi_hermanus_vertices);
+    poi_osm_poi_hermanus.name = 'cb_osm_poi_hermanus';
+    poi_plato = object_instance(loader, 'Plato_v2.gltf', 0.001, 0, plato_vertices);
+    poi_plato.name = 'cb_plato';
 
 
 const light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light

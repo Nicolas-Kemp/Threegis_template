@@ -45,6 +45,15 @@ canvas:focus {
     max-width: 500px;
     width: 40%;
 }
+
+.btn-info:not(:disabled):not(.disabled):active{
+
+background: #28A8EA;
+
+}
+.black-background {background-color:#000000;}
+.white {color:#ffffff;}
+
 .slider-container{
     position: absolute;
     top: 0;
@@ -53,7 +62,7 @@ canvas:focus {
     color: #28A8EA;
     margin: 20em 8em;
     min-width: 50px;
-    max-width: 150px;
+    max-width: 250px;
     width: 40%;
     background: #000E1D;
     opacity:0.8;
@@ -72,7 +81,7 @@ color:#28A8EA;
     left: 0;
     z-index: 1;
     color: #28A8EA;
-    margin: 42em 8em;
+    margin: 30em 8em;
     min-width: 50px;
     max-width: 250px;
     width: 40%;

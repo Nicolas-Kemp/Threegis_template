@@ -10,45 +10,27 @@
 <link rel="stylesheet"  href="{%  static  'css/threeviewer.css'  type='text/css' %}">
 
 <div class="slider-container">
+    <h3>OSM Points of Interest - Lightmap</h3>
+    <br>
     <button type="button" class="btn btn-info black-background white" id="btn_light">Light switch</button>
     <p></p>
     <button type="button" class="btn btn-info" onclick="height_switch()" id="btn_height">Height switch</button>
-    <h3>Lightmap sliders</h3>
-    <div class="sliders">
-        <p></p>
-        <input type="range" min="0" max="5" value="0" class="slider" id="slider_population" onchange="heatmap_params()">
-        <p>Wealth</p>
-        <input type="range" min="0" max="5" value="0" class="slider" id="slider_fastfood" onchange="heatmap_params()">
-        <p>Fast Food Outlets</p>
-        <input type="range" min="0" max="5" value="0" class="slider" id="slider_shops" onchange="heatmap_params()">
-        <p>Shops</p>
-    </div>
 </div>
 <div class="checkbox-container">
      <h3>Points Of Interest</h3>
-    <input class="form-check-input" type="checkbox" value="" id="cb_kfc" onclick="poi_checked('cb_kfc', 'poi_kfc');">
-    <label class="form-check-label" for="cb_kfc">
-        KFC
+    <input class="form-check-input" type="checkbox" value="" id="cb_osm_poi" onclick="poi_checked('cb_osm_poi', 'poi_osm_poi');">
+    <label class="form-check-label" for="cb_osm_poi">
+        OSM Points of Interest
     </label>
     <br>
-    <input class="form-check-input" type="checkbox" value="" id="cb_mcdonalds" onclick="poi_checked('cb_mcdonalds', 'poi_mcdonalds');">
-    <label class="form-check-label" for="cb_mcdonalds">
-        Mcdonalds
+    <input class="form-check-input" type="checkbox" value="" id="cb_osm_poi_hermanus" onclick="poi_checked('cb_osm_poi_hermanus', 'poi_osm_poi_hermanus');">
+    <label class="form-check-label" for="cb_osm_poi_hermanus">
+        OSM Points of Interest - Hermanus
     </label>
     <br>
-    <input class="form-check-input" type="checkbox" value="" id="cb_nandos" onclick="poi_checked('cb_nandos', 'poi_nandos');">
-    <label class="form-check-label" for="cb_mcdonalds">
-        Nandos
-    </label>
-    <br>
-    <input class="form-check-input" type="checkbox" value="" id="cb_woolworths" onclick="poi_checked('cb_woolworths', 'poi_woolworths');">
-    <label class="form-check-label" for="cb_woolworths">
-        Woolworths
-    </label>
-    <br>
-    <input class="form-check-input" type="checkbox" value="" id="cb_shopping" onclick="poi_checked('cb_shopping', 'poi_shopping');">
-    <label class="form-check-label" for="cb_shopping">
-        Shopping Centre/Supermarket
+    <input class="form-check-input" type="checkbox" value="" id="cb_plato" onclick="poi_checked('cb_plato', 'poi_plato');">
+    <label class="form-check-label" for="cb_plato">
+       Plato Coffee Hermanus
     </label>
 </div>
 <div class="webgl" id = "webgl_id">
@@ -64,6 +46,7 @@
             const aoi_scale = {{aoi_scale}}
 
             const osm_poi_vertices = new Float32Array({{osm_poi_vertices}})
+            const osm_poi_hermanus_vertices = new Float32Array({{osm_poi_hermanus_vertices}})
             const plato_vertices = new Float32Array({{plato_vertices}})
     </script>
 
