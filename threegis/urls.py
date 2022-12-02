@@ -16,11 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from landingpage.views import LandingPage
-from threed_viewer.views import ThreeViewer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LandingPage.as_view()),
-    path('threeviewer', ThreeViewer.as_view())
+    path('', LandingPage.as_view())
 
 ]
