@@ -230,11 +230,11 @@ function displacement_maps(dis_width, dis_height, res_width, res_height, centr_x
 
 
 // THREE.js BASE MAP //
-(function(){var script=document.createElement('script');
-script.onload=function(){var stats=new Stats();
-document.body.appendChild(stats.dom);
-requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};
-script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+//(function(){var script=document.createElement('script');
+//script.onload=function(){var stats=new Stats();
+//document.body.appendChild(stats.dom);
+//requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};
+//script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 
 window.addEventListener( 'resize', onWindowResize, false );
     function onWindowResize(){
