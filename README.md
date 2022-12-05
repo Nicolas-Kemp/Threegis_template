@@ -88,6 +88,18 @@ scene.add( map_fishriver );
 
 ```
 
+## DEM Downloads
+
+30M RESOLUTION
+•	https://dwtkns.com/srtm30m/
+Derek Watkins created a tool to ease the download process for 30m resolution DEM’s covering Earth.
+These DEM’s are part of the NASA Earthdata program and therefore requires a login
+
+12M RESOLUTION
+
+The Advanced Land Observing Satellite (ALOS) space-based platform has made a 12m resolution DEM available. The 12m resolution DEM can be downloaded at:
+•	https://search.earthdata.nasa.gov/search?fpc0=Earth%20Observation%20Satellites&fpsc0=Advanced%20Land%20Observing%20Satellite%20(ALOS)&fpb0=Space-based%20Platforms&lat=0.0703125
+•	https://asf.alaska.edu/data-sets/sar-data-sets/alos-palsar/alos-palsar-terms-and-conditions/
 
 
 
