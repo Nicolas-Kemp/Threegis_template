@@ -54,7 +54,7 @@ Convert the dictionary items to the correct three.js format by creating the foll
 let bufg_fishriver = new THREE.BufferGeometry();
 bufg_fishriver.setIndex(fishriverwalk_indices);
 bufg_fishriver.setAttribute( 'position', new THREE.BufferAttribute( fishriverwalk_vertices, 3 ) );
-bufg_fishriver.setAttribute( 'uv', new THREE.BufferAttribute( fishriverwalk_uvs, 2 ) );
+bufg_fishriver.setAttribute( 'uv', new THREE.BufferAttribute( fishriverwalk_uvs, 2 ) ); //necessary to drape image over raster
 bufg_fishriver.computeVertexNormals();
 let todelete;
 
@@ -83,7 +83,7 @@ if (img_fishriverwalk['image']===null) {
 
 const mat_fishriver = new THREE.MeshStandardMaterial(tc_fishriver_walk);
 map_fishriver = new THREE.Mesh( bufg_fishriver, mat_fishriver );
-map_fishriver.scale.y = 0.00001;
+map_fishriver.scale.y = 0.00001; //height exaggeration value
 scene.add( map_fishriver );
 
 ```
