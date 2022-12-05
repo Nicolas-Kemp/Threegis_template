@@ -25,7 +25,7 @@ it is also possible to add a bounding box by including tiff_bbox=[minx, maxy, ma
 
 example call:
 
-'''dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "fishriverwalk").object_dict()'''
+''' dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "fishriverwalk").object_dict() '''
 
 The impor_spatial_layer class detects whether the imput is a valid tiff file and passes it to the raster class. The raster class extracts all necessary information and package and return a dictionary by calling object_dict().
 
