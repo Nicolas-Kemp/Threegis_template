@@ -31,6 +31,23 @@ dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "f
 
 The impor_spatial_layer class detects whether the imput is a valid tiff file and passes it to the raster class. The raster class extracts all necessary information and package and return a dictionary by calling object_dict().
 
+### Create JAvaScript Variables
+Convert the dictionary items to the correct three.js format by creating the following JavaScript variables:
+
+```
+    <script>
+            const fishriverwalk_vertices = new Float32Array({{fishriverwalk_vertices}})
+            const fishriverwalk_indices = {{fishriverwalk_indices}}
+            const fishriverwalk_uvs = new Float32Array({{fishriverwalk_uvs}})
+            const fishriverwalk_ulx = {{fishriverwalk_ulx}}
+            const fishriverwalk_uly = {{fishriverwalk_uly}}
+            const fishriverwalk_lrx = {{fishriverwalk_lrx}}
+            const fishriverwalk_lry = {{fishriverwalk_lry}}
+            const fishriverwalk_centroid = {{fishriverwalk_centroid}}
+            const fishriverwalk_scale = {{fishriverwalk_scale}}
+    </script>
+```
+
 
 
 
