@@ -32,7 +32,7 @@ dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "f
 The impor_spatial_layer class detects whether the imput is a valid tiff file and passes it to the raster class. The raster class extracts all necessary information and package and return a dictionary by calling object_dict().
 
 ### Create JAvaScript Variables
-Convert the dictionary items to the correct three.js format by creating the following JavaScript variables:
+Convert the dictionary items to the correct three.js format by creating the following JavaScript variables inside the project's html file:
 
 ```
     <script>
@@ -48,6 +48,45 @@ Convert the dictionary items to the correct three.js format by creating the foll
     </script>
 ```
 
+### THREE.JS
+
+```
+let bufg_fishriver = new THREE.BufferGeometry();
+bufg_fishriver.setIndex(fishriverwalk_indices);
+bufg_fishriver.setAttribute( 'position', new THREE.BufferAttribute( fishriverwalk_vertices, 3 ) );
+bufg_fishriver.setAttribute( 'uv', new THREE.BufferAttribute( fishriverwalk_uvs, 2 ) );
+bufg_fishriver.computeVertexNormals();
+let todelete;
+
+//colour image (satellite image)
+let img_fishriverwalk = new THREE.TextureLoader().load('static/images/fishriver_walk_ex.jpeg');
+//black and white image (black = 100% transparent)
+let img_fishriverwalk_alpha = new THREE.TextureLoader().load('static/images/fishriver_walk_ex_alpha.jpeg');
+var tc_fishriver_walk = {
+                map: img_fishriverwalk,
+                roughness: 1,
+                metalness: 0.1,
+                alphaMap: img_fishriverwalk_alpha,
+                transparent: true,
+                depthTest: true
+
+        };
+
+if (img_fishriverwalk['image']===null) {
+                console.log('texture is undefined');
+                var tc_fishriver_walk = {
+                color: 0xA6A4A1,
+                roughness: 3,
+                metalness: 0.6,
+                        };
+                    }
+
+const mat_fishriver = new THREE.MeshStandardMaterial(tc_fishriver_walk);
+map_fishriver = new THREE.Mesh( bufg_fishriver, mat_fishriver );
+map_fishriver.scale.y = 0.00001;
+scene.add( map_fishriver );
+
+```
 
 
 
