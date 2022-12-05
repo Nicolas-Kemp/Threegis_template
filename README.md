@@ -2,8 +2,8 @@
 
 This Django template include the basics needed to visualise a dem (digital elevation model) in 3D. 
 
-Included in this template are a few class methods found in threegis->threed_func.py, which converts a dem to a dictionary contaianing the following:
-*vertices
+Included in this template are a few class methods stored under threegis->threed_func.py, which converts a dem to a dictionary contaianing the following:
+* vertices
 * indices
 * uvs
 * ulx (upper left x)
@@ -14,5 +14,14 @@ Included in this template are a few class methods found in threegis->threed_func
 * yres (y resolution)
 * centroid
 * height_colours (Different colours for heights falling in the following percentiles: 5, 15, 30, 40, 60, 75, 85, 97)
+
+
+## Example
+
+### Project View
+
+
+
+
 
     
