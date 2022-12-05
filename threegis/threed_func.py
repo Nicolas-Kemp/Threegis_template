@@ -1,6 +1,5 @@
 from osgeo import gdal
 import numpy as np
-from scipy import interpolate
 import imghdr
 
 
@@ -28,15 +27,7 @@ def import_spatial_layer(geo_dataframe, layer_name, **kwargs):
                     return RasterToThreeD(geo_dataframe, layer_name, tiff_bbox=kwargs.get('tiff_bbox'))
                 else:
                     return RasterToThreeD(geo_dataframe, layer_name)
-            else: print("raster file not in tiff/tif format")          
-    else:
-        if geo_dataframe.geometry.all().geom_type == 'Point' or geo_dataframe.geometry.all().geom_type == 'MultiPoint':
-            if 'tiff_bbox' in kwargs:
-                return PointToThreeD(geo_dataframe, layer_name, height_map=height_map, tiff_bbox=kwargs.get('tiff_bbox'))
-            else:
-                return PointToThreeD(geo_dataframe, layer_name, height_map=height_map)
-
-        else: print('could not find a valid geopandas file')
+            else: print("raster file not in tiff/tif format")
 
 
 class RasterToThreeD:
@@ -54,6 +45,7 @@ class RasterToThreeD:
     tiff_xres = []
     tiff_yres = []
     tiff_centroid = []
+    height_colours = []
 
     def __init__(self, raster_layer, layer_name, **kwargs):
         if imghdr.what(raster_layer) == 'tiff' or imghdr.what(raster_layer) == 'tif':
@@ -78,6 +70,7 @@ class RasterToThreeD:
         scale = max(self.vertices)-min(self.vertices)
         self.indices = self.raster_indexarray()
         self.uvs = self.raster_uvarray()
+        self.height_colours = self.raster_colours()
         return {
             f'{self.layer_name}_vertices': self.vertices,
             f'{self.layer_name}_indices': self.indices,
@@ -164,7 +157,7 @@ class RasterToThreeD:
         uv_list[uv_list <= 0] = 0
         return list(uv_list)
 
-    def raster_colors(self):
+    def raster_colours(self):
         vertices = self.raster_vertexarray()
         color_theme_1 = [[0, 156, 239], [58, 178, 243], [114, 240, 162],
                          [34, 173, 29], [252, 233, 79], [255, 198, 136], [255, 149, 35]
@@ -197,71 +190,3 @@ class RasterToThreeD:
 
         list_colors = np.array(list_colors).flatten().tolist()
         return {f'{self.layer_name}_colors': list(list_colors)}
-
-class PointToThreeD:
-
-    vertices = []
-    z_vertice = []
-
-    def __init__(self, point_layer, layer_name, **kwargs):
-        if point_layer.geometry.all().geom_type == 'Point' or point_layer.geometry.all().geom_type == 'MultiPoint':
-            self.layer_name = layer_name
-            self.point_layer = point_layer
-            self.projection = self.point_layer.crs
-
-            if (kwargs.get("height_map")):
-                if str(type(kwargs.get("height_map"))) == "<class 'dict'>":
-                    for key in kwargs.get("height_map"):
-                        if "_vertices" in key:
-                            self.z_vertice = kwargs.get("height_map")[key]
-                        else:
-                            print(
-                                "Warning: No height vertices were found in dictionary. dictionary key must be named with _vertices")
-                else:
-                    if 'tiff_bbox' in kwargs:
-                        self.base_raster = import_spatial_layer(kwargs.get("height_map"), "",
-                                                                tiff_bbox=kwargs.get('tiff_bbox'))
-                    else:
-                        self.base_raster = import_spatial_layer(kwargs.get("height_map"), "")
-                    self.z_vertice = self.base_raster.raster_vertexarray()
-        else:
-            print('Please insert a valid point layer')
-            return
-
-    def object_dict(self):
-        self.vertices = self.point_z()
-
-        return {
-            f'{self.layer_name}_vertices': self.vertices,
-                }
-
-    def point_z(self):
-        z_vertice = self.z_vertice
-        z_scale = 1
-        geoms = self.point_layer.geometry
-        Px = np.array([(geom.xy[1][0]) for geom in geoms])
-        Py = np.array([(geom.xy[0][0]) for geom in geoms])
-        list_arrays = []
-
-        if len(z_vertice) > 0:
-            z_vertice = np.array(z_vertice).reshape([-1, 3])
-            Sx = z_vertice[:, 0].flatten()
-            Sz = z_vertice[:, 1].flatten()
-            Sy = z_vertice[:, 2].flatten()
-
-            PSz = interpolate.LinearNDInterpolator(list(zip(Sx, Sy)), Sz)(list(zip(Px, Py)))
-
-            where_are_NaNs = np.isnan(PSz)
-            PSz[where_are_NaNs] = 0.00001
-
-            iter = 0
-            for geom in geoms:
-                list_arrays.append([geom.xy[1][0], (PSz[iter] * z_scale) + 0.0001, geom.xy[0][0]])
-                iter += 1
-        else:
-            print("Warning: No height were detected. Z values will be set to 0")
-            for i in range(0, len(Px)):
-                list_arrays.append([Px[i], 0, Py[i]])
-
-        return list(np.array(list_arrays).flatten())
-

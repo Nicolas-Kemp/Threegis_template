@@ -17,10 +17,10 @@ class LandingPage(View):
             return JsonResponse(self.dict_to_return)
 
         dict_fishriverwalk = three_func.import_spatial_layer(self.tiff_fishriverwalk, "fishriverwalk").object_dict()
-
         self.dict_to_return.update(dict_fishriverwalk)
+
         for keys in self.dict_to_return:
             print(keys)
-        # <view logic>
+
         return render(request, self.template_name, self.dict_to_return)
-# Create your views here.
+
