@@ -88,6 +88,9 @@ scene.add( map_fishriver );
 
 ```
 
+## What it looks like
+* https://www.youtube.com/watch?v=Ltky4HqU0wc&list=PLCSnwlm08DzJn3pn-8-_ckXmwoet03MwK
+
 ## DEM Downloads
 
 30M RESOLUTION
